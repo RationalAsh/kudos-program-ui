@@ -60,10 +60,15 @@ const Context: FC<{ children: ReactNode }> = ({ children }) => {
 const Content: FC = () => {
   return (
       <div className="App">
-          <ResponsiveAppBar/>
-          <Box height="100vh" sx={{ display: 'flex', flexWrap: 'wrap', backgroundColor: 'palette.background.paper' }}>
-            <KudosProgramUI/>
-          </Box>
+            <ResponsiveAppBar/>
+            <Box height="100vh" 
+                sx={{ 
+                    display: 'flex', 
+                    flexWrap: 'wrap', 
+                    backgroundColor: 'palette.background.paper',
+                    justifyContent: 'center' }}>
+                <KudosProgramUI/>
+            </Box>
       </div>
   );
 };
