@@ -166,12 +166,13 @@ const ResponsiveAppBar = () => {
             Kudos
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-          <Button
-                onClick={() => setShowAbout(true)}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                About
-          </Button>
+
+            <Button
+                  onClick={() => setShowAbout(true)}
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                >
+                  About
+            </Button>
             {/* {pages.map((page) => (
               <Button
                 key={page}
