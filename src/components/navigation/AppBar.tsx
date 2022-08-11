@@ -106,7 +106,7 @@ const ResponsiveAppBar = () => {
               textDecoration: 'none',
             }}
           >
-            Ashwin's Solana Faucet
+            Kudos
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -158,13 +158,12 @@ const ResponsiveAppBar = () => {
               flexGrow: 1,
               fontFamily: 'monospace',
               fontWeight: 700,
-              fontSize: 12,
               letterSpacing: '.08rem',
               color: 'inherit',
               textDecoration: 'none',
             }}
           >
-            Ashwin's Solana Faucet
+            Kudos
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
           <Button
