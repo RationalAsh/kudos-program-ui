@@ -4,8 +4,9 @@ import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 
 export interface IUserCardProps {
     name: string,
-    kudos_received: BigInt,
-    kudos_given: BigInt
+    kudosReceived: BigInt,
+    kudosGiven: BigInt,
+    onKudos: React.MouseEventHandler<HTMLButtonElement>
 }
 
 export default function UserCard (props: IUserCardProps) {
@@ -14,7 +15,7 @@ export default function UserCard (props: IUserCardProps) {
             alignItems="flex-start"
             secondaryAction= {
                 <Tooltip title="Give Kudos!" arrow>
-                <IconButton edge="end" aria-label="comments">
+                <IconButton edge="end" aria-label="comments" onClick={props.onKudos}>
                     <ThumbUpOffAltIcon />
                 </IconButton>
                 </Tooltip>
@@ -32,7 +33,7 @@ export default function UserCard (props: IUserCardProps) {
                             variant="body2"
                             color="text.primary"
                         >
-                            {props.kudos_given.toString()} 
+                            {props.kudosGiven.toString()} 
                         </Typography>
                         {' -- Kudos Given ::: '}
                         <Typography
@@ -41,7 +42,7 @@ export default function UserCard (props: IUserCardProps) {
                             variant="body2"
                             color="text.primary"
                         >
-                            {props.kudos_received.toString()} 
+                            {props.kudosReceived.toString()} 
                         </Typography>
                         {' -- Kudos Received'}
                     </React.Fragment>
