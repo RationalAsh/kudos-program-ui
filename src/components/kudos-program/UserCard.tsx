@@ -2,12 +2,14 @@ import { Avatar, Card, CardContent, IconButton, ListItem, ListItemAvatar, ListIt
 import * as React from 'react';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import * as anchor from "@project-serum/anchor";
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 
 export interface IUserCardProps {
     name: string,
     kudosReceived: anchor.BN,
     kudosGiven: anchor.BN,
     onKudos: React.MouseEventHandler<HTMLButtonElement> | undefined
+    accountInitialized: boolean
 }
 
 export default function UserCard (props: IUserCardProps) {
@@ -15,9 +17,14 @@ export default function UserCard (props: IUserCardProps) {
         <ListItem 
             alignItems="flex-start"
             secondaryAction= {
-                <Tooltip title="Give Kudos!" arrow>
+                <Tooltip 
+                    title={ props.accountInitialized ? "Give Kudos!" : "Create Account"} 
+                    arrow>
                 <IconButton edge="end" aria-label="comments" onClick={props.onKudos}>
-                    <ThumbUpOffAltIcon />
+                    { props.accountInitialized ? 
+                        <ThumbUpOffAltIcon /> :
+                        <PersonAddIcon />
+                    }
                 </IconButton>
                 </Tooltip>
             }>

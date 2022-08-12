@@ -18,6 +18,7 @@ export default function KudosProgramUI (props: IKudosProgramUIProps) {
     const { connection } = useConnection();
     const { enqueueSnackbar } = useSnackbar();
     const [kudosClient, setKudosClient] = React.useState<KudosClient | undefined>(undefined);
+    const [ userInitialized, setUserInitialized ] = React.useState<boolean>(false);
     const [ userStats, setUserStats ] = React.useState({
         name: "Not initialized",
         kudosReceived: new anchor.BN(0),
@@ -45,7 +46,7 @@ export default function KudosProgramUI (props: IKudosProgramUIProps) {
         findUserAccount(undefined).catch((err) => {
             enqueueSnackbar(err.toString(), {variant: "error", autoHideDuration: 5000});
         })
-    }, [kudosClient])
+    }, [kudosClient, userInitialized])
     
     function handleCreate(event: any) {
         // console.log(await kudosClient?.findUsers());
@@ -53,6 +54,7 @@ export default function KudosProgramUI (props: IKudosProgramUIProps) {
         kudosClient?.createAccountForUser("Ashwin")
                     .then((res) => {
                         enqueueSnackbar(res, {variant: "success", autoHideDuration: 5000});
+                        setUserInitialized(true);
                     })
                     .catch((err) => {
                         enqueueSnackbar(err.toString(), {variant: "error", autoHideDuration: 5000});
@@ -65,6 +67,10 @@ export default function KudosProgramUI (props: IKudosProgramUIProps) {
         kudosClient?.getCurrentUser()
                     .then((res) => {
                         setUserStats(res);
+                    })
+                    .catch((err) => {
+                        setUserInitialized(false);
+                        // enqueueSnackbar(err.toString(), {variant: "error", autoHideDuration: 5000});
                     })
     }
     
@@ -79,7 +85,8 @@ export default function KudosProgramUI (props: IKudosProgramUIProps) {
                 name={userStats.name}
                 kudosGiven={userStats.kudosGiven} 
                 kudosReceived={userStats.kudosReceived}
-                onKudos={findUserAccount}/>
+                onKudos={userInitialized ? findUserAccount : handleCreate}
+                accountInitialized={userInitialized}/>
             <Divider variant="inset" component="li" />
             <Typography variant="h5" component="div" gutterBottom sx={{m: '20px'}}>
                 Profiles
@@ -89,7 +96,8 @@ export default function KudosProgramUI (props: IKudosProgramUIProps) {
                 name="Grodd" 
                 kudosGiven={new anchor.BN(0)} 
                 kudosReceived={new anchor.BN(0)}
-                onKudos={() => {}}/>
+                onKudos={() => {}}
+                accountInitialized={true}/>
             <Divider variant="inset" component="li" />
         </List>
         </>
