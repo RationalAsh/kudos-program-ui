@@ -1,4 +1,4 @@
-import { Divider, List, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, List, Modal, TextField, Typography } from '@mui/material';
 import * as anchor from "@project-serum/anchor";
 import { useConnection, useWallet, useAnchorWallet } from '@solana/wallet-adapter-react';
 import { PublicKey, SystemProgram } from '@solana/web3.js';
@@ -7,10 +7,12 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { KudosClient } from '../client/KudosClient';
 import { IDL } from '../client/kudos_program';
+import RegisterCard from './RegisterCard';
 import UserCard from './UserCard';
 
 export interface IKudosProgramUIProps {
 }
+  
 
 export default function KudosProgramUI (props: IKudosProgramUIProps) {
     // Set up anchor provider with wallet adapter.
@@ -26,6 +28,11 @@ export default function KudosProgramUI (props: IKudosProgramUIProps) {
         bump: 255
     });
     const [ otherUsers, otherUserStats ] = React.useState([]);
+
+    // Registration modal
+    const [ openRegistrationModal, setOpenRegistrationModal ] = React.useState<boolean>(false);
+    const [ creating, setCreating ] = React.useState<boolean>(false);
+    const [ userName, setUserName ] = React.useState<string>("");
 
     useEffect(() => {
         if (wallet) {
@@ -50,15 +57,19 @@ export default function KudosProgramUI (props: IKudosProgramUIProps) {
     
     function handleCreate(event: any) {
         // console.log(await kudosClient?.findUsers());
+        setOpenRegistrationModal(false);
         enqueueSnackbar("Creating your new account....", {variant: "info", autoHideDuration: 5000});
+        setCreating(true);
         kudosClient?.createAccountForUser("Ashwin")
                     .then((res) => {
                         enqueueSnackbar(res, {variant: "success", autoHideDuration: 5000});
                         setUserInitialized(true);
+                        setCreating(true);
                     })
                     .catch((err) => {
                         enqueueSnackbar(err.toString(), {variant: "error", autoHideDuration: 5000});
                         console.log(err.toString());
+                        setCreating(false);
                     });
         // enqueueSnackbar("Creating your new account....", {variant: "info", autoHideDuration: 5000});
     }
@@ -73,7 +84,7 @@ export default function KudosProgramUI (props: IKudosProgramUIProps) {
                         // enqueueSnackbar(err.toString(), {variant: "error", autoHideDuration: 5000});
                     })
     }
-    
+
     return (
         <>
         <List sx={{ width: '100%', maxWidth: 420, bgcolor: 'background.paper' }}>
@@ -81,12 +92,26 @@ export default function KudosProgramUI (props: IKudosProgramUIProps) {
                 Your Profile
             </Typography>
             <Divider variant="inset" component="li" />
-            <UserCard 
+            { !userInitialized 
+                ? <RegisterCard 
+                    userName={userName}
+                    setUserName={setUserName}
+                    registerInProgress={creating}
+                    onRegister={handleCreate}/>
+                : <UserCard 
+                    name={userStats.name}
+                    kudosGiven={userStats.kudosGiven}
+                    kudosReceived={userStats.kudosReceived}
+                    onKudos={undefined}
+                    accountInitialized={userInitialized}/>
+            }
+            
+            {/* <UserCard 
                 name={userStats.name}
                 kudosGiven={userStats.kudosGiven} 
                 kudosReceived={userStats.kudosReceived}
-                onKudos={userInitialized ? findUserAccount : handleCreate}
-                accountInitialized={userInitialized}/>
+                onKudos={userInitialized ? findUserAccount : () => setOpenRegistrationModal(true)}
+                accountInitialized={userInitialized}/> */}
             <Divider variant="inset" component="li" />
             <Typography variant="h5" component="div" gutterBottom sx={{m: '20px'}}>
                 Profiles
