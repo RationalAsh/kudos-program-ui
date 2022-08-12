@@ -33,7 +33,7 @@ export default function RegisterCard (props: IRegisterCardProps) {
                     <TextField 
                         id="user-name" 
                         label="Name" 
-                        variant="filled" 
+                        variant="outlined" 
                         fullWidth
                         sx={{ mb: '5px' }}
                         value={props.userName}
@@ -49,7 +49,7 @@ export default function RegisterCard (props: IRegisterCardProps) {
                             variant="body2"
                             color="text.primary"
                         >
-                            {"Create your account to start."} 
+                            {"Create your account to start!"} 
                         </Typography>
                     </React.Fragment>
             }

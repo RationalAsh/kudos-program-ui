@@ -26,6 +26,8 @@ import brandLogo from '../../img/brand-logo.png'
 import WalletButton from '../wallet/WalletButton';
 import { useSnackbar } from 'notistack';
 
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+
 const pages = ['About', 'Contact Me'];
 const settings = ['Connect Wallet'];
 
@@ -90,25 +92,7 @@ const ResponsiveAppBar = () => {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <img alt="logo" src={brandLogo} style={{width:"4rem", height: undefined, padding:8}}></img>
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="/"
-            sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
-            Kudos Program
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+        <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -147,6 +131,30 @@ const ResponsiveAppBar = () => {
               ))} */}
             </Menu>
           </Box>
+
+          
+          <ThumbUpIcon />
+          {/* <img alt="logo" src={brandLogo} style={{width:"4rem", height: undefined, padding:8}}></img> */}
+          <Typography
+            variant="h6"
+            noWrap
+            component="a"
+            href="/"
+            sx={{
+              mr: 2,
+              display: { xs: 'none', md: 'flex' },
+              fontFamily: 'monospace',
+              fontWeight: 700,
+              letterSpacing: '.3rem',
+              color: 'inherit',
+              textDecoration: 'none',
+            }}
+          >
+            Kudos Program
+          </Typography>
+          
+
+
           <Typography
             variant="h5"
             noWrap
