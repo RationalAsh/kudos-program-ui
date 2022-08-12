@@ -1,12 +1,13 @@
 import { Avatar, Card, CardContent, IconButton, ListItem, ListItemAvatar, ListItemText, Tooltip, Typography } from '@mui/material';
 import * as React from 'react';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
+import * as anchor from "@project-serum/anchor";
 
 export interface IUserCardProps {
     name: string,
-    kudosReceived: BigInt,
-    kudosGiven: BigInt,
-    onKudos: React.MouseEventHandler<HTMLButtonElement>
+    kudosReceived: anchor.BN,
+    kudosGiven: anchor.BN,
+    onKudos: React.MouseEventHandler<HTMLButtonElement> | undefined
 }
 
 export default function UserCard (props: IUserCardProps) {

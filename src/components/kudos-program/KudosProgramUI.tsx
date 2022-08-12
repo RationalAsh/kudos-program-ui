@@ -18,7 +18,13 @@ export default function KudosProgramUI (props: IKudosProgramUIProps) {
     const { connection } = useConnection();
     const { enqueueSnackbar } = useSnackbar();
     const [kudosClient, setKudosClient] = React.useState<KudosClient | undefined>(undefined);
-    const [ userStats, setUserStats ] = React.useState({});
+    const [ userStats, setUserStats ] = React.useState({
+        name: "Not initialized",
+        kudosReceived: new anchor.BN(0),
+        kudosGiven: new anchor.BN(0),
+        bump: 255
+    });
+    const [ otherUsers, otherUserStats ] = React.useState([]);
 
     useEffect(() => {
         if (wallet) {
@@ -31,9 +37,15 @@ export default function KudosProgramUI (props: IKudosProgramUIProps) {
         }
         
         return () => {
-            // Nothing to do
+            // Find the user accoun
         }
     }, [wallet, connection])
+
+    useEffect(() => {
+        findUserAccount(undefined).catch((err) => {
+            enqueueSnackbar(err.toString(), {variant: "error", autoHideDuration: 5000});
+        })
+    }, [kudosClient])
     
     function handleCreate(event: any) {
         // console.log(await kudosClient?.findUsers());
@@ -63,12 +75,11 @@ export default function KudosProgramUI (props: IKudosProgramUIProps) {
                 Your Profile
             </Typography>
             <Divider variant="inset" component="li" />
-            { userStats. ?   
-                <UserCard 
-                    name=
-                    kudosGiven={BigInt(10)} 
-                    kudosReceived={BigInt(10)}
-                    onKudos={findUserAccount}/>
+            <UserCard 
+                name={userStats.name}
+                kudosGiven={userStats.kudosGiven} 
+                kudosReceived={userStats.kudosReceived}
+                onKudos={findUserAccount}/>
             <Divider variant="inset" component="li" />
             <Typography variant="h5" component="div" gutterBottom sx={{m: '20px'}}>
                 Profiles
@@ -76,8 +87,8 @@ export default function KudosProgramUI (props: IKudosProgramUIProps) {
             <Divider variant="inset" component="li" />
             <UserCard 
                 name="Grodd" 
-                kudosGiven={BigInt(10)} 
-                kudosReceived={BigInt(10)}
+                kudosGiven={new anchor.BN(0)} 
+                kudosReceived={new anchor.BN(0)}
                 onKudos={() => {}}/>
             <Divider variant="inset" component="li" />
         </List>
