@@ -1,4 +1,4 @@
-import { Avatar, Card, CardContent, IconButton, ListItem, ListItemAvatar, ListItemText, Tooltip, Typography } from '@mui/material';
+import { Avatar, Card, CardContent, Divider, IconButton, ListItem, ListItemAvatar, ListItemText, Tooltip, Typography } from '@mui/material';
 import * as React from 'react';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import * as anchor from "@project-serum/anchor";
@@ -10,20 +10,23 @@ export interface IUserCardProps {
     kudosGiven: anchor.BN,
     onKudos: React.MouseEventHandler<HTMLButtonElement> | undefined
     accountInitialized: boolean
+    accountPubKey: any
 }
 
 export default function UserCard (props: IUserCardProps) {
     return (
+        <>
+        <Divider variant="inset" component="li" />
         <ListItem 
             alignItems="flex-start"
             secondaryAction= {
                 <Tooltip 
                     title={ props.accountInitialized ? "Give Kudos!" : "Create Account"} 
                     arrow>
-                <IconButton edge="end" aria-label="comments" onClick={props.onKudos}>
+                <IconButton edge="end" aria-label="comments" onClick={props.onKudos} id="feuhuh">
                     { props.accountInitialized ? 
-                        <ThumbUpOffAltIcon /> :
-                        <PersonAddIcon />
+                        <ThumbUpOffAltIcon id={props.accountPubKey.toString()}/> :
+                        <PersonAddIcon id="fuhu"/>
                     }
                 </IconButton>
                 </Tooltip>
@@ -57,5 +60,7 @@ export default function UserCard (props: IUserCardProps) {
             }
             />
         </ListItem>
+        <Divider variant="inset" component="li" />
+        </>
     );
 }

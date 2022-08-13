@@ -4,14 +4,15 @@ import { PublicKey, SystemProgram } from "@solana/web3.js";
 import { IDL, KudosProgram } from "./kudos_program";
 
 export class KudosClient {
-    wallet      : AnchorWallet;
-    provider    : anchor.Provider;
-    programId   : anchor.Address;
-    program     : anchor.Program<KudosProgram>;
-    user        : PublicKey = PublicKey.default;
-    SEED_PHRASE : string = "kudos-stats";
-    PDA         : PublicKey = PublicKey.default;
-    PDA_BUMP    : number = 255;
+    wallet        : AnchorWallet;
+    provider      : anchor.Provider;
+    programId     : anchor.Address;
+    program       : anchor.Program<KudosProgram>;
+    user          : PublicKey = PublicKey.default;
+    SEED_PHRASE   : string = "kudos-stats";
+    PDA           : PublicKey = PublicKey.default;
+    PDA_BUMP      : number = 255;
+    otherAccounts : PublicKey[] = [];
 
     constructor(connection: anchor.web3.Connection, 
                 wallet: AnchorWallet) {
@@ -46,9 +47,21 @@ export class KudosClient {
         return this.program.account.userStats.fetch(PDA);
     }
 
-    findUsers() {
-        return this.provider.connection.getProgramAccounts(this.program.programId);
+    async findUsers() {
+        const data = await this.provider.connection.getProgramAccounts(this.program.programId)
+        const pubkeys = data.map((item) => item.pubkey);
+        this.otherAccounts = pubkeys;
+        return Promise.all(data.map((item, index) => {return this.program.account.userStats.fetch(item.pubkey)}));
     }
+
+    // async giveKudos(pubkey: PublicKey) {
+    //     return this.program.methods
+    //             .giveKudos(new anchor.BN(10))
+    //             .accounts({
+    //                 kudosSender: this.user,
+    //                 kudosReceiver: pubkey,
+    //             })
+    // }
 
     async createAccountForUser(name: string) {
         return PublicKey.findProgramAddress(

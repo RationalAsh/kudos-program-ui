@@ -27,7 +27,7 @@ export default function KudosProgramUI (props: IKudosProgramUIProps) {
         kudosGiven: new anchor.BN(0),
         bump: 255
     });
-    const [ otherUsers, otherUserStats ] = React.useState([]);
+    const [ otherUsers, setOtherUsers ] = React.useState<any[]>([]);
 
     // Registration modal
     const [ openRegistrationModal, setOpenRegistrationModal ] = React.useState<boolean>(false);
@@ -52,7 +52,10 @@ export default function KudosProgramUI (props: IKudosProgramUIProps) {
     useEffect(() => {
         findUserAccount(undefined).catch((err) => {
             enqueueSnackbar(err.toString(), {variant: "error", autoHideDuration: 5000});
-        })
+        });
+        getUsers().catch((err) => {
+            enqueueSnackbar(err.toString(), {variant: "error", autoHideDuration: 5000});
+        });
     }, [kudosClient, userInitialized])
     
     function handleCreate(event: any) {
@@ -85,6 +88,14 @@ export default function KudosProgramUI (props: IKudosProgramUIProps) {
                     })
     }
 
+    async function getUsers() {
+        kudosClient?.findUsers()
+                    .then((accs) => {
+                        setOtherUsers(accs);
+                        console.log(accs);
+                    });
+    } 
+
     return (
         <>
         <List sx={{ width: '100%', maxWidth: 420, bgcolor: 'background.paper' }}>
@@ -103,27 +114,31 @@ export default function KudosProgramUI (props: IKudosProgramUIProps) {
                     kudosGiven={userStats.kudosGiven}
                     kudosReceived={userStats.kudosReceived}
                     onKudos={undefined}
-                    accountInitialized={userInitialized}/>
+                    accountInitialized={userInitialized}
+                    accountPubKey={PublicKey.default}/>
             }
-            
-            {/* <UserCard 
-                name={userStats.name}
-                kudosGiven={userStats.kudosGiven} 
-                kudosReceived={userStats.kudosReceived}
-                onKudos={userInitialized ? findUserAccount : () => setOpenRegistrationModal(true)}
-                accountInitialized={userInitialized}/> */}
             <Divider variant="inset" component="li" />
             <Typography variant="h5" component="div" gutterBottom sx={{m: '20px'}}>
                 Profiles
             </Typography>
-            <Divider variant="inset" component="li" />
             <UserCard 
                 name="Grodd" 
                 kudosGiven={new anchor.BN(0)} 
                 kudosReceived={new anchor.BN(0)}
                 onKudos={() => {}}
-                accountInitialized={true}/>
-            <Divider variant="inset" component="li" />
+                accountInitialized={true}
+                accountPubKey={PublicKey.default}/>
+            { otherUsers.length > 0 ? 
+              otherUsers.map((item, index) => 
+                <UserCard
+                    key={`card-user-${index}`}
+                    accountPubKey={kudosClient?.otherAccounts[index]}
+                    name={item.name}
+                    kudosGiven={item.kudosGiven}
+                    kudosReceived={item.kudosReceived}
+                    onKudos={(e:any) => {console.log(e.target.id)}}
+                    accountInitialized={true}/>
+              ) : <></> }
         </List>
         </>
     );
