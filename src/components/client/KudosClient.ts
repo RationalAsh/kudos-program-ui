@@ -12,7 +12,7 @@ export class KudosClient {
     SEED_PHRASE   : string = "kudos-stats";
     PDA           : PublicKey = PublicKey.default;
     PDA_BUMP      : number = 255;
-    otherAccounts : PublicKey[] = [];
+    otherAccounts : any[] = [];
 
     constructor(connection: anchor.web3.Connection, 
                 wallet: AnchorWallet) {
@@ -50,18 +50,22 @@ export class KudosClient {
     async findUsers() {
         const data = await this.provider.connection.getProgramAccounts(this.program.programId)
         const pubkeys = data.map((item) => item.pubkey);
-        this.otherAccounts = pubkeys;
-        return Promise.all(data.map((item, index) => {return this.program.account.userStats.fetch(item.pubkey)}));
+        // this.otherAccounts = pubkeys;
+        const userStats = await Promise.all(data.map((item, index) => {return this.program.account.userStats.fetch(item.pubkey)}));
+
+        this.otherAccounts = userStats;
+        return userStats;
     }
 
-    // async giveKudos(pubkey: PublicKey) {
-    //     return this.program.methods
-    //             .giveKudos(new anchor.BN(10))
-    //             .accounts({
-    //                 kudosSender: this.user,
-    //                 kudosReceiver: pubkey,
-    //             })
-    // }
+    async giveKudos(pubkey: PublicKey) {
+        return this.program.methods
+                .giveKudos(new anchor.BN(10))
+                .accounts({
+                    kudosSender: this.user,
+                    kudosReceiver: pubkey,
+                })
+                .rpc();
+    }
 
     async createAccountForUser(name: string) {
         return PublicKey.findProgramAddress(

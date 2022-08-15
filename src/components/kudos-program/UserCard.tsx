@@ -3,6 +3,7 @@ import * as React from 'react';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import * as anchor from "@project-serum/anchor";
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import { PublicKey } from '@solana/web3.js';
 
 export interface IUserCardProps {
     name: string,
@@ -10,7 +11,7 @@ export interface IUserCardProps {
     kudosGiven: anchor.BN,
     onKudos: React.MouseEventHandler<HTMLButtonElement> | undefined
     accountInitialized: boolean
-    accountPubKey: any
+    accountPubKey: PublicKey
 }
 
 export default function UserCard (props: IUserCardProps) {
@@ -23,9 +24,9 @@ export default function UserCard (props: IUserCardProps) {
                 <Tooltip 
                     title={ props.accountInitialized ? "Give Kudos!" : "Create Account"} 
                     arrow>
-                <IconButton edge="end" aria-label="comments" onClick={props.onKudos} id="feuhuh">
+                <IconButton edge="end" aria-label="comments" onClick={props.onKudos} id={props.accountPubKey.toString()}>
                     { props.accountInitialized ? 
-                        <ThumbUpOffAltIcon id={props.accountPubKey.toString()}/> :
+                        <ThumbUpOffAltIcon id={props.accountPubKey.toBase58()}/> :
                         <PersonAddIcon id="fuhu"/>
                     }
                 </IconButton>

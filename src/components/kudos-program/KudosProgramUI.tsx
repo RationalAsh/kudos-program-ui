@@ -132,7 +132,7 @@ export default function KudosProgramUI (props: IKudosProgramUIProps) {
               otherUsers.map((item, index) => 
                 <UserCard
                     key={`card-user-${index}`}
-                    accountPubKey={kudosClient?.otherAccounts[index]}
+                    accountPubKey={kudosClient?.otherAccounts[index].publicKey}
                     name={item.name}
                     kudosGiven={item.kudosGiven}
                     kudosReceived={item.kudosReceived}

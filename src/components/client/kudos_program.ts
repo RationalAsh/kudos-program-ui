@@ -75,6 +75,10 @@ export type KudosProgram = {
             "type": "string"
           },
           {
+            "name": "publicKey",
+            "type": "publicKey"
+          },
+          {
             "name": "kudosReceived",
             "type": "u64"
           },
@@ -167,6 +171,10 @@ export const IDL: KudosProgram = {
           {
             "name": "name",
             "type": "string"
+          },
+          {
+            "name": "publicKey",
+            "type": "publicKey"
           },
           {
             "name": "kudosReceived",
