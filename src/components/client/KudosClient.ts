@@ -77,7 +77,10 @@ export class KudosClient {
                 .rpc();
     }
 
+    // Create an account for the current user. 
     async createAccountForUser(name: string) {
+        // Find the program derived address for the 
+        // current user deterministically.
         return PublicKey.findProgramAddress(
             [
                 anchor.utils.bytes.utf8.encode(this.SEED_PHRASE),
@@ -89,7 +92,7 @@ export class KudosClient {
             this.PDA = pda;
             this.PDA_BUMP = pda_bump;
             return this.program.methods
-                .createUserStats(name, pda_bump)
+                .createUserStats(name, pda_bump) // Create the account
                 .accounts({
                     user: this.user,
                     userStats: pda,
@@ -99,7 +102,9 @@ export class KudosClient {
         })
     }
 
+    // Update the name associated with the account.
     async updateName(new_name: string) {
+        // Find the PDA
         return PublicKey.findProgramAddress(
             [
                 anchor.utils.bytes.utf8.encode(this.SEED_PHRASE),
@@ -107,9 +112,9 @@ export class KudosClient {
             ],
             this.program.programId
         )
-        .then(([pda, pda_bump]) => {
+        .then(([pda, _]) => {
             return this.program.methods
-                .updateName(new_name)
+                .updateName(new_name) // Change the name.
                 .accounts({
                     user: this.user,
                     userStats: pda,
