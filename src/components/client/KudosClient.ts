@@ -89,6 +89,25 @@ export class KudosClient {
         })
     }
 
+    async updateName(new_name: string) {
+        return PublicKey.findProgramAddress(
+            [
+                anchor.utils.bytes.utf8.encode(this.SEED_PHRASE),
+                this.user.toBuffer() 
+            ],
+            this.program.programId
+        )
+        .then(([pda, pda_bump]) => {
+            return this.program.methods
+                .updateName(new_name)
+                .accounts({
+                    user: this.user,
+                    userStats: pda,
+                })
+                .rpc();
+        })
+    }
+
     async closeAccount() {
         return PublicKey.findProgramAddress(
             [
