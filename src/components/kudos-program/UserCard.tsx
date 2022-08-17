@@ -1,4 +1,4 @@
-import { Avatar, Card, CardContent, Divider, IconButton, ListItem, ListItemAvatar, ListItemText, Tooltip, Typography } from '@mui/material';
+import { Avatar, Card, CardContent, Divider, IconButton, ListItem, ListItemAvatar, ListItemText, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
 import * as React from 'react';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import * as anchor from "@project-serum/anchor";
@@ -21,8 +21,9 @@ export default function UserCard (props: IUserCardProps) {
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setUserMenuAnchorEl(event.currentTarget);
     };
-      const handleClose = () => {
+    const handleClose = (event: any) => {
         setUserMenuAnchorEl(null);
+        console.log(event.target.id);
     };
 
     return (
@@ -33,17 +34,19 @@ export default function UserCard (props: IUserCardProps) {
             secondaryAction= {
                 <Tooltip 
                     title={ props.accountInitialized ? "Give Kudos!" : "Create Account"} 
-                    arrow>
-                <IconButton edge="end" aria-label="comments" onClick={props.onKudos} id={props.accountPubKey.toBase58()}>
-                    { props.accountInitialized ? 
-                        <ThumbUpOffAltIcon id={props.accountPubKey.toBase58()}/> :
-                        <PersonAddIcon id={props.accountPubKey.toBase58()}/>
-                    }
+                    arrow
+                    id={'kudos:' + props.accountPubKey.toBase58()}>
+                <IconButton 
+                    edge="end" 
+                    aria-label="comments" 
+                    onClick={props.onKudos} 
+                    id={'kudos:' + props.accountPubKey.toBase58()}>
+                    <ThumbUpOffAltIcon id={'kudos:' + props.accountPubKey.toBase58()}/>
                 </IconButton>
                 </Tooltip>
             }>
             <ListItemAvatar>
-                <IconButton>
+                <IconButton onClick={handleClick}>
                     <Avatar alt={props.name} src="/static/images/avatar/3.jpg" />
                 </IconButton>
             </ListItemAvatar>
@@ -74,6 +77,22 @@ export default function UserCard (props: IUserCardProps) {
             />
         </ListItem>
         <Divider variant="inset" component="li" />
+        <Menu
+            anchorEl={userMenuAnchorEl}
+            id="account-menu"
+            open={open}
+            onClose={handleClose}
+            onClick={handleClose}>
+            
+            <MenuItem id={'edit:' + props.accountPubKey.toBase58()}>
+                Edit Name
+            </MenuItem>
+
+            <MenuItem id={'delete:' + props.accountPubKey.toBase58()}>
+                Delete Account
+            </MenuItem>
+
+        </Menu>
         </>
     );
 }
