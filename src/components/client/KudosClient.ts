@@ -87,7 +87,27 @@ export class KudosClient {
                 })
                 .rpc();
         })
-        
+    }
 
+    async closeAccount() {
+        return PublicKey.findProgramAddress(
+            [
+                anchor.utils.bytes.utf8.encode(this.SEED_PHRASE),
+                this.user.toBuffer() 
+            ],
+            this.program.programId
+        )
+        .then(([pda, pda_bump]) => {
+            this.PDA = pda;
+            this.PDA_BUMP = pda_bump;
+            return this.program.methods
+                .closeUserStats(true)
+                .accounts({
+                    user: this.user,
+                    userStats: pda,
+                    systemProgram: SystemProgram.programId
+                })
+                .rpc();
+        })
     }
 }

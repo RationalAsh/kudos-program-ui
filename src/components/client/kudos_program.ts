@@ -33,6 +33,27 @@ export type KudosProgram = {
       ]
     },
     {
+      "name": "updateName",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "userStats",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "newName",
+          "type": "string"
+        }
+      ]
+    },
+    {
       "name": "giveKudos",
       "accounts": [
         {
@@ -60,6 +81,32 @@ export type KudosProgram = {
         {
           "name": "amount",
           "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "closeUserStats",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "userStats",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "zeroKudos",
+          "type": "bool"
         }
       ]
     }
@@ -131,6 +178,27 @@ export const IDL: KudosProgram = {
       ]
     },
     {
+      "name": "updateName",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "userStats",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "newName",
+          "type": "string"
+        }
+      ]
+    },
+    {
       "name": "giveKudos",
       "accounts": [
         {
@@ -158,6 +226,32 @@ export const IDL: KudosProgram = {
         {
           "name": "amount",
           "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "closeUserStats",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "userStats",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "zeroKudos",
+          "type": "bool"
         }
       ]
     }
