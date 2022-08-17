@@ -9,7 +9,8 @@ export interface IUserCardProps {
     name: string,
     kudosReceived: anchor.BN,
     kudosGiven: anchor.BN,
-    onKudos: React.MouseEventHandler<HTMLButtonElement> | undefined
+    onNameChangeRequest: any,
+    onAccountCloseRequest: any,
     accountInitialized: boolean
     accountPubKey: PublicKey
 }
@@ -24,6 +25,7 @@ export default function UserCard (props: IUserCardProps) {
     const handleClose = (event: any) => {
         setUserMenuAnchorEl(null);
         console.log(event.target.id);
+        const action = event.target.id.split(':');
     };
 
     return (

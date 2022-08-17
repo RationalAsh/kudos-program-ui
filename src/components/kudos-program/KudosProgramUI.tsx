@@ -97,6 +97,12 @@ export default function KudosProgramUI (props: IKudosProgramUIProps) {
                     });
     } 
 
+    async function handleCloseAccount(event: any) {
+        console.log(event.target.id);
+        const res = await kudosClient?.closeAccount();
+        console.log(res);
+    }
+
     return (
         <>
         <List sx={{ width: '100%', maxWidth: 420, bgcolor: 'background.paper' }}>
@@ -114,7 +120,8 @@ export default function KudosProgramUI (props: IKudosProgramUIProps) {
                     name={userStats.name}
                     kudosGiven={userStats.kudosGiven}
                     kudosReceived={userStats.kudosReceived}
-                    onKudos={undefined}
+                    onNameChangeRequest={undefined}
+                    onAccountCloseRequest={handleCloseAccount}
                     accountInitialized={userInitialized}
                     accountPubKey={PublicKey.default}/>
             }
@@ -126,9 +133,10 @@ export default function KudosProgramUI (props: IKudosProgramUIProps) {
                 name="Grodd" 
                 kudosGiven={new anchor.BN(0)} 
                 kudosReceived={new anchor.BN(0)}
-                onKudos={() => {}}
                 accountInitialized={true}
-                accountPubKey={PublicKey.default}/>
+                accountPubKey={PublicKey.default}
+                onAccountCloseRequest={undefined}
+                onNameChangeRequest={undefined}/>
             { otherUsers.length > 0 ? 
               otherUsers.map((item, index) => 
                 <UserCard
@@ -137,8 +145,9 @@ export default function KudosProgramUI (props: IKudosProgramUIProps) {
                     name={item.name}
                     kudosGiven={item.kudosGiven}
                     kudosReceived={item.kudosReceived}
-                    onKudos={(e:any) => {console.log(e.target.id)}}
-                    accountInitialized={true}/>
+                    accountInitialized={true}
+                    onAccountCloseRequest={undefined}
+                    onNameChangeRequest={undefined}/>
               ) : <></> }
         </List>
         </>
