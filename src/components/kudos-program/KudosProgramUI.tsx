@@ -63,7 +63,7 @@ export default function KudosProgramUI (props: IKudosProgramUIProps) {
         setOpenRegistrationModal(false);
         enqueueSnackbar("Creating your new account....", {variant: "info", autoHideDuration: 5000});
         setCreating(true);
-        kudosClient?.createAccountForUser("Ashwin")
+        kudosClient?.createAccountForUser(userName)
                     .then((res) => {
                         enqueueSnackbar(res, {variant: "success", autoHideDuration: 5000});
                         setUserInitialized(true);
