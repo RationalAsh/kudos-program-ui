@@ -36,7 +36,9 @@ export class KudosClient {
         );
     }
 
+    // Get the account data for the current user.
     async getCurrentUser() {
+        // Get the PDA for the current user associated with this program.
         const [PDA, _] = PublicKey.findProgramAddressSync(
             [
                 anchor.utils.bytes.utf8.encode(this.SEED_PHRASE),
@@ -44,19 +46,27 @@ export class KudosClient {
             ],
             this.program.programId
         );
+
+        // Fetch the UserSstats struct at the PDA.
         return this.program.account.userStats.fetch(PDA);
     }
 
+    // Find all users of this program with accounts.
     async findUsers() {
+        // Get list of PDAs associated with the program ID.
         const data = await this.provider.connection.getProgramAccounts(this.program.programId)
-        const pubkeys = data.map((item) => item.pubkey);
-        // this.otherAccounts = pubkeys;
+
+        // Get the UserStats struct from the account data.
         const userStats = await Promise.all(data.map((item, index) => {return this.program.account.userStats.fetch(item.pubkey)}));
 
+        // Assign the list of accounts to the list returned.
         this.otherAccounts = userStats;
+
+        // Return the list for further processing.
         return userStats;
     }
 
+    // Give kudos to an account
     async giveKudos(pubkey: PublicKey) {
         return this.program.methods
                 .giveKudos(new anchor.BN(10))
