@@ -24,10 +24,10 @@ export default function UserCard (props: IUserCardProps) {
                 <Tooltip 
                     title={ props.accountInitialized ? "Give Kudos!" : "Create Account"} 
                     arrow>
-                <IconButton edge="end" aria-label="comments" onClick={props.onKudos} id={props.accountPubKey.toString()}>
+                <IconButton edge="end" aria-label="comments" onClick={props.onKudos} id={props.accountPubKey.toBase58()}>
                     { props.accountInitialized ? 
                         <ThumbUpOffAltIcon id={props.accountPubKey.toBase58()}/> :
-                        <PersonAddIcon id="fuhu"/>
+                        <PersonAddIcon id={props.accountPubKey.toBase58()}/>
                     }
                 </IconButton>
                 </Tooltip>
