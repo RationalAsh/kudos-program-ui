@@ -81,6 +81,7 @@ export default function KudosProgramUI (props: IKudosProgramUIProps) {
         kudosClient?.getCurrentUser()
                     .then((res) => {
                         setUserStats(res);
+                        setUserInitialized(true);
                     })
                     .catch((err) => {
                         setUserInitialized(false);

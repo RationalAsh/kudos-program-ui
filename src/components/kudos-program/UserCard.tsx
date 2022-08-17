@@ -30,21 +30,7 @@ export default function UserCard (props: IUserCardProps) {
         <>
         <Divider variant="inset" component="li" />
         <ListItem 
-            alignItems="flex-start"
-            secondaryAction= {
-                <Tooltip 
-                    title={ props.accountInitialized ? "Give Kudos!" : "Create Account"} 
-                    arrow
-                    id={'kudos:' + props.accountPubKey.toBase58()}>
-                <IconButton 
-                    edge="end" 
-                    aria-label="comments" 
-                    onClick={props.onKudos} 
-                    id={'kudos:' + props.accountPubKey.toBase58()}>
-                    <ThumbUpOffAltIcon id={'kudos:' + props.accountPubKey.toBase58()}/>
-                </IconButton>
-                </Tooltip>
-            }>
+            alignItems="flex-start">
             <ListItemAvatar>
                 <IconButton onClick={handleClick}>
                     <Avatar alt={props.name} src="/static/images/avatar/3.jpg" />
