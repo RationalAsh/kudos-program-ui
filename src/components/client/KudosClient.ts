@@ -123,6 +123,7 @@ export class KudosClient {
         })
     }
 
+    // Close the account associated with an address.
     async closeAccount() {
         return PublicKey.findProgramAddress(
             [
