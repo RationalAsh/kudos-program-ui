@@ -15,6 +15,16 @@ export interface IUserCardProps {
 }
 
 export default function UserCard (props: IUserCardProps) {
+    // Anchor element for user menu.
+    const [ userMenuAnchorEl, setUserMenuAnchorEl ] = React.useState<null | HTMLElement>(null);
+    const open = Boolean(userMenuAnchorEl);
+    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+        setUserMenuAnchorEl(event.currentTarget);
+    };
+      const handleClose = () => {
+        setUserMenuAnchorEl(null);
+    };
+
     return (
         <>
         <Divider variant="inset" component="li" />
@@ -33,7 +43,9 @@ export default function UserCard (props: IUserCardProps) {
                 </Tooltip>
             }>
             <ListItemAvatar>
-                <Avatar alt={props.name} src="/static/images/avatar/3.jpg" />
+                <IconButton>
+                    <Avatar alt={props.name} src="/static/images/avatar/3.jpg" />
+                </IconButton>
             </ListItemAvatar>
             <ListItemText
                 primary={props.name}
