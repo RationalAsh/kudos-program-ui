@@ -25,7 +25,23 @@ export default function UserCard (props: IUserCardProps) {
     const handleClose = (event: any) => {
         setUserMenuAnchorEl(null);
         console.log(event.target.id);
-        const action = event.target.id.split(':');
+        
+        // First get the command
+        const splitstr = event.target.id.split(':');
+        const cmd = splitstr[0];
+        // const pkey = PublicKey(splitstr[1]);
+
+        switch (cmd) {
+            case 'edit':
+                console.log("Will edit name.");
+                break;
+            case 'delete':
+                console.log('Will delete account.');
+                props.onAccountCloseRequest(event);
+                break;
+            default:
+                break;
+        }
     };
 
     return (
