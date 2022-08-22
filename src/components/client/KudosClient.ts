@@ -9,7 +9,8 @@ export class KudosClient {
     programId     : anchor.Address;
     program       : anchor.Program<KudosProgram>;
     user          : PublicKey = PublicKey.default;
-    SEED_PHRASE   : string = "kudos-stats-v0.2";
+    SEED_PHRASE   : string = "kudos-stats-v0.3";
+    VERSION_NUMBER: number = 3;
     PDA           : PublicKey = PublicKey.default;
     PDA_BUMP      : number = 255;
     otherAccounts : any[] = [];

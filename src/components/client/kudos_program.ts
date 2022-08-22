@@ -118,6 +118,10 @@ export type KudosProgram = {
         "kind": "struct",
         "fields": [
           {
+            "name": "version",
+            "type": "u64"
+          },
+          {
             "name": "name",
             "type": "string"
           },
@@ -262,6 +266,10 @@ export const IDL: KudosProgram = {
       "type": {
         "kind": "struct",
         "fields": [
+          {
+            "name": "version",
+            "type": "u64"
+          },
           {
             "name": "name",
             "type": "string"
