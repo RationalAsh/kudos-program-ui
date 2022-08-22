@@ -10,7 +10,7 @@ export class KudosClient {
     program       : anchor.Program<KudosProgram>;
     user          : PublicKey = PublicKey.default;
     SEED_PHRASE   : string = "kudos-stats-v0.3";
-    VERSION_NUMBER: number = 3;
+    VERSION_NUMBER: anchor.BN = new anchor.BN(3);
     PDA           : PublicKey = PublicKey.default;
     PDA_BUMP      : number = 255;
     otherAccounts : any[] = [];
@@ -61,7 +61,9 @@ export class KudosClient {
         const userStats = await Promise.all(data.map((item, index) => {return this.program.account.userStats.fetch(item.pubkey)}));
 
         // Assign the list of accounts to the list returned.
-        this.otherAccounts = userStats;
+        this.otherAccounts = userStats.filter((elem, idx, arr) => {
+            return (elem.version === this.VERSION_NUMBER);
+        });
 
         // Return the list for further processing.
         return userStats;
