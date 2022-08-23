@@ -102,6 +102,7 @@ export default function KudosProgramUI (props: IKudosProgramUIProps) {
         const res = await kudosClient?.closeAccount()
             .then((res) => {
                 enqueueSnackbar(res, {variant: "success", autoHideDuration: 5000});
+                enqueueSnackbar("Account closed!", {variant: "success", autoHideDuration: 5000});
                 setUserInitialized(false);
             })
             .catch((res) => {
