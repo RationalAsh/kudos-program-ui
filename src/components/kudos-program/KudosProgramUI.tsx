@@ -99,7 +99,14 @@ export default function KudosProgramUI (props: IKudosProgramUIProps) {
 
     async function handleCloseAccount(event: any) {
         console.log(event.target.id);
-        const res = await kudosClient?.closeAccount();
+        const res = await kudosClient?.closeAccount()
+            .then((res) => {
+                enqueueSnackbar(res, {variant: "success", autoHideDuration: 5000});
+                setUserInitialized(false);
+            })
+            .catch((res) => {
+                enqueueSnackbar(res, {variant: "error", autoHideDuration: 5000});
+            });
         console.log(res);
     }
 
