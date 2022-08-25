@@ -144,19 +144,19 @@ export default function KudosProgramUI (props: IKudosProgramUIProps) {
             <Typography variant="h5" component="div" gutterBottom sx={{m: '20px'}}>
                 Profiles
             </Typography>
-            <UserCard 
+            {/* <UserCard 
                 name="Grodd" 
                 kudosGiven={new anchor.BN(0)} 
                 kudosReceived={new anchor.BN(0)}
                 accountInitialized={true}
                 accountPubKey={PublicKey.default}
                 onAccountCloseRequest={undefined}
-                onNameChangeRequest={undefined}/>
+                onNameChangeRequest={undefined}/> */}
             { otherUsers.length > 0 ? 
               otherUsers.map((item, index) => 
                 <UserCard
                     key={`card-user-${index}`}
-                    accountPubKey={kudosClient?.otherAccounts[index].publicKey}
+                    accountPubKey={otherUsers[index].publicKey}
                     name={item.name}
                     kudosGiven={item.kudosGiven}
                     kudosReceived={item.kudosReceived}
