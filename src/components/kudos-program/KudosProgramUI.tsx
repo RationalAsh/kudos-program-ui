@@ -92,8 +92,15 @@ export default function KudosProgramUI (props: IKudosProgramUIProps) {
     async function getUsers() {
         kudosClient?.findUsers()
                     .then((accs) => {
-                        setOtherUsers(accs);
-                        console.log(accs);
+                        const accsOther = accs.filter((item) => {
+                            if (wallet) {
+                                return !(item.publicKey.equals(wallet?.publicKey));
+                            } else {
+                                return true;
+                            }
+                        })
+                        setOtherUsers(accsOther);
+                        console.log(accsOther);
                     });
     } 
 

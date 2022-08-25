@@ -56,9 +56,11 @@ export class KudosClient {
     async findUsers() {
         // Get list of PDAs associated with the program ID.
         const data = await this.provider.connection.getProgramAccounts(this.program.programId)
-
+        const newaccs = await data.filter((item, idx) => {
+            return item.account.data.length === 129;
+        })
         // Get the UserStats struct from the account data.
-        const userStats = await Promise.all(data.map((item, index) => {return this.program.account.userStats.fetch(item.pubkey)}));
+        const userStats = await Promise.all(newaccs.map((item, index) => {return this.program.account.userStats.fetch(item.pubkey)}));
 
         // Assign the list of accounts to the list returned.
         this.otherAccounts = userStats.filter((elem, idx, arr) => {
