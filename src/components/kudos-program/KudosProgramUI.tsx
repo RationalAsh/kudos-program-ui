@@ -119,6 +119,17 @@ export default function KudosProgramUI (props: IKudosProgramUIProps) {
         console.log(res);
     }
 
+    async function handleKudos(pkey: PublicKey) {
+        console.log('Giving kudos to' + pkey.toBase58);
+        const res = await kudosClient?.giveKudos(pkey)
+            .then((res) => {
+                enqueueSnackbar(res, {variant: "success", autoHideDuration: 5000});
+            })
+            .catch((res) => {
+                enqueueSnackbar(res, {variant: "error", autoHideDuration: 5000});
+            })
+    }
+
     return (
         <>
         <List sx={{ width: '100%', maxWidth: 420, bgcolor: 'background.paper' }}>
