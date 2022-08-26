@@ -7,6 +7,7 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { KudosClient } from '../client/KudosClient';
 import { IDL } from '../client/kudos_program';
+import ProfileCard from './ProfileCard';
 import RegisterCard from './RegisterCard';
 import UserCard from './UserCard';
 
@@ -154,15 +155,12 @@ export default function KudosProgramUI (props: IKudosProgramUIProps) {
                 onNameChangeRequest={undefined}/> */}
             { otherUsers.length > 0 ? 
               otherUsers.map((item, index) => 
-                <UserCard
+                <ProfileCard
                     key={`card-user-${index}`}
-                    accountPubKey={otherUsers[index].publicKey}
                     name={item.name}
                     kudosGiven={item.kudosGiven}
                     kudosReceived={item.kudosReceived}
-                    accountInitialized={true}
-                    onAccountCloseRequest={undefined}
-                    onNameChangeRequest={undefined}/>
+                    onKudos={undefined}/>
               ) : <></> }
         </List>
         </>
