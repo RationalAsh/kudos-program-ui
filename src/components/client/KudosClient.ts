@@ -73,13 +73,34 @@ export class KudosClient {
 
     // Give kudos to an account
     async giveKudos(pubkey: PublicKey) {
-        return this.program.methods
+        // Get the PDA for the current user associated with this program.
+        const [PDAtx, btx] = PublicKey.findProgramAddressSync(
+            [
+                anchor.utils.bytes.utf8.encode(this.SEED_PHRASE),
+                this.user.toBuffer()
+            ],
+            this.program.programId
+        );
+
+        const [PDArx, brx] = PublicKey.findProgramAddressSync(
+            [
+                anchor.utils.bytes.utf8.encode(this.SEED_PHRASE),
+                pubkey.toBuffer()
+            ],
+            this.program.programId
+        );
+
+        const tx = await this.program.methods
                 .giveKudos(new anchor.BN(10))
                 .accounts({
                     kudosSender: this.user,
                     kudosReceiver: pubkey,
+                    senderStats: PDAtx,
+                    receiverStats: PDArx
                 })
                 .rpc();
+        
+        return tx;
     }
 
     // Create an account for the current user. 

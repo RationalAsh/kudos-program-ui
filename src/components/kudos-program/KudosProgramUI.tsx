@@ -120,13 +120,13 @@ export default function KudosProgramUI (props: IKudosProgramUIProps) {
     }
 
     async function handleKudos(pkey: PublicKey) {
-        console.log('Giving kudos to' + pkey.toBase58);
+        console.log('Giving kudos to' + pkey.toBase58());
         const res = await kudosClient?.giveKudos(pkey)
             .then((res) => {
-                enqueueSnackbar(res, {variant: "success", autoHideDuration: 5000});
+                enqueueSnackbar(res.toString(), {variant: "success", autoHideDuration: 5000});
             })
             .catch((res) => {
-                enqueueSnackbar(res, {variant: "error", autoHideDuration: 5000});
+                enqueueSnackbar(res.toString(), {variant: "error", autoHideDuration: 5000});
             })
     }
 
@@ -172,7 +172,7 @@ export default function KudosProgramUI (props: IKudosProgramUIProps) {
                     kudosGiven={item.kudosGiven}
                     kudosReceived={item.kudosReceived}
                     pubkey={otherUsers[index].publicKey}
-                    onKudos={undefined}/>
+                    onKudos={handleKudos}/>
               ) : <></> }
         </List>
         </>

@@ -14,8 +14,9 @@ export interface IProfileCardProps {
 
 export default function ProfileCard (props: IProfileCardProps) {
 
-    function kudosHandler(event: any) {
+    async function kudosHandler(event: any) {
         console.log('kudos:' + props.pubkey.toBase58());
+        const res = await props.onKudos(props.pubkey);
     }
 
     return (
