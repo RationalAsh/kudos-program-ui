@@ -160,6 +160,7 @@ export default function KudosProgramUI (props: IKudosProgramUIProps) {
                     name={item.name}
                     kudosGiven={item.kudosGiven}
                     kudosReceived={item.kudosReceived}
+                    pubkey={otherUsers[index].publicKey}
                     onKudos={undefined}/>
               ) : <></> }
         </List>

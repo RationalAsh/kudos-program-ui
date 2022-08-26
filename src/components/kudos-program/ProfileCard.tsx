@@ -6,24 +6,31 @@ import { PublicKey } from '@solana/web3.js';
 
 export interface IProfileCardProps {
     name: string,
+    pubkey: PublicKey,
     kudosReceived: anchor.BN,
     kudosGiven: anchor.BN,
     onKudos: any
 }
 
 export default function ProfileCard (props: IProfileCardProps) {
+
+    function kudosHandler(event: any) {
+        console.log('kudos:' + props.pubkey.toBase58());
+    }
+
     return (
         <ListItem 
             alignItems="flex-start"
             secondaryAction= {
                 <Tooltip 
-                    title={"Create Account"} 
+                    title={"Give Kudos"} 
                     arrow>
                 <IconButton 
-                    onClick={props.onKudos}
+                    onClick={kudosHandler}
                     edge="end" 
-                    aria-label="comments">
-                    <ThumbUpIcon />
+                    aria-label="comments"
+                    id={'kudos:' + props.pubkey.toBase58()}>
+                    <ThumbUpIcon id={'kudos:' + props.pubkey.toBase58()}/>
                 </IconButton>
                 </Tooltip>
             }>
