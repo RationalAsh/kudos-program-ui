@@ -1,6 +1,6 @@
 import { createDefaultAuthorizationResultCache, SolanaMobileWalletAdapter } from '@solana-mobile/wallet-adapter-mobile';
 import { WalletAdapterNetwork, WalletError } from '@solana/wallet-adapter-base';
-import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
+import { ConnectionProvider, useWallet, WalletProvider } from '@solana/wallet-adapter-react';
 import { WalletDialogProvider, WalletMultiButton } from '@solana/wallet-adapter-material-ui';
 import {
     PhantomWalletAdapter,
@@ -18,6 +18,7 @@ import{ SnackbarProvider, useSnackbar } from 'notistack'
 import OutlinedCard from './components/airdrop/Airdropper';
 import Airdropper from './components/airdrop/Airdropper';
 import KudosProgramUI from './components/kudos-program/KudosProgramUI';
+import NoWalletPage from './components/kudos-program/NoWalletPage';
 
 const Context: FC<{ children: ReactNode }> = ({ children }) => {
     // The network can be set to 'devnet', 'testnet', or 'mainnet-beta'.
@@ -58,6 +59,7 @@ const Context: FC<{ children: ReactNode }> = ({ children }) => {
 };
 
 const Content: FC = () => {
+    const { connected } = useWallet();
   return (
       <div className="App">
             <ResponsiveAppBar/>
@@ -67,7 +69,7 @@ const Content: FC = () => {
                     flexWrap: 'wrap', 
                     backgroundColor: 'palette.background.paper',
                     justifyContent: 'center' }}>
-                <KudosProgramUI/>
+                {connected ? <KudosProgramUI/> : <NoWalletPage/>}
             </Box>
       </div>
   );
