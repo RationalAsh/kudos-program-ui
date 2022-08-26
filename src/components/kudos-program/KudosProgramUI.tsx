@@ -1,4 +1,4 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, List, Modal, TextField, Typography } from '@mui/material';
+import { Backdrop, Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Divider, List, Modal, TextField, Typography } from '@mui/material';
 import * as anchor from "@project-serum/anchor";
 import { useConnection, useWallet, useAnchorWallet } from '@solana/wallet-adapter-react';
 import { PublicKey, SystemProgram } from '@solana/web3.js';
@@ -34,6 +34,7 @@ export default function KudosProgramUI (props: IKudosProgramUIProps) {
     const [ openRegistrationModal, setOpenRegistrationModal ] = React.useState<boolean>(false);
     const [ creating, setCreating ] = React.useState<boolean>(false);
     const [ userName, setUserName ] = React.useState<string>("");
+    const [ isLoading, setIsLoading ] = React.useState<boolean>(false);
 
     useEffect(() => {
         if (wallet) {
@@ -79,18 +80,22 @@ export default function KudosProgramUI (props: IKudosProgramUIProps) {
     }
 
     async function findUserAccount(event: any) {
+        setIsLoading(true);
         kudosClient?.getCurrentUser()
                     .then((res) => {
                         setUserStats(res);
                         setUserInitialized(true);
+                        setIsLoading(false);
                     })
                     .catch((err) => {
                         setUserInitialized(false);
+                        setIsLoading(false);
                         // enqueueSnackbar(err.toString(), {variant: "error", autoHideDuration: 5000});
                     })
     }
 
     async function getUsers() {
+        setIsLoading(true);
         kudosClient?.findUsers()
                     .then((accs) => {
                         const accsOther = accs.filter((item) => {
@@ -100,32 +105,43 @@ export default function KudosProgramUI (props: IKudosProgramUIProps) {
                                 return true;
                             }
                         })
+                        setIsLoading(false);
                         setOtherUsers(accsOther);
                         console.log(accsOther);
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        setIsLoading(false);
                     });
     } 
 
     async function handleCloseAccount(event: any) {
+        setIsLoading(true);
         console.log(event.target.id);
         const res = await kudosClient?.closeAccount()
             .then((res) => {
+                setIsLoading(false);
                 enqueueSnackbar(res, {variant: "success", autoHideDuration: 5000});
                 enqueueSnackbar("Account closed!", {variant: "success", autoHideDuration: 5000});
                 setUserInitialized(false);
             })
             .catch((res) => {
+                setIsLoading(false);
                 enqueueSnackbar(res, {variant: "error", autoHideDuration: 5000});
             });
         console.log(res);
     }
 
     async function handleKudos(pkey: PublicKey) {
+        setIsLoading(true);
         console.log('Giving kudos to' + pkey.toBase58());
         const res = await kudosClient?.giveKudos(pkey)
             .then((res) => {
+                setIsLoading(false);
                 enqueueSnackbar(res.toString(), {variant: "success", autoHideDuration: 5000});
             })
             .catch((res) => {
+                setIsLoading(false);
                 enqueueSnackbar(res.toString(), {variant: "error", autoHideDuration: 5000});
             })
     }
@@ -175,6 +191,14 @@ export default function KudosProgramUI (props: IKudosProgramUIProps) {
                     onKudos={handleKudos}/>
               ) : <></> }
         </List>
+        <Backdrop
+            sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open={isLoading}
+            onClick={undefined}
+            >
+            Sending kudos....
+            <CircularProgress color="inherit" />
+        </Backdrop>
         </>
     );
 }
