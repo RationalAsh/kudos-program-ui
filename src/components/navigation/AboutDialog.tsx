@@ -64,23 +64,34 @@ export default function AboutDialog(props: AboutDialogProps) {
             <Grid container alignItems="center" justifyContent="center">
               <Grid item xs={12} md={6}>
               <Typography variant="body1">
-              This is a React app that airdrops SOL to your testnet or devnet 
-              wallets. I made it to learn how to write apps that interact with Solana and to make it easier 
-              to airdrop myself SOL for the many Solana projects I'm trying out. To find out more about me, 
-              check out <Link rel="noreferrer" href="https://www.ashwinnarayan.com/" target="_blank">my home page</Link>.
-              <p>This project is open source. Check out the code 
-              <Link href='https://github.com/RationalAsh/solana-faucet' target='_blank' rel='noreferrer'> here</Link></p>
-              </Typography>
+              This is a React frontend for the Kudos Program smart contract on Solana. It's a
+              a simple program that allows you to create a named profile that other users can
+              give "kudos" to. The frontend displays all the kudos you've given as well as all
+              the kudos you've received. This app was built as part of the Solana Summer Camp 
+              2022.
 
+              The smart contract is open source and written in Rust. Visit  
+              <Link rel="noreferrer" 
+                    href="https://github.com/RationalAsh/kudos-program" 
+                    target="_blank"> the github page </Link>  
+              to view the source code.
+              
+              To find out more about me, 
+              check out <Link rel="noreferrer" href="https://www.ashwinnarayan.com/" target="_blank">my home page</Link>.
+              </Typography>
+              <p></p>
               <Typography variant="h4">
               FAQ
               </Typography>
+              
               <Typography variant="h5">
-              Why do I need to connect my wallet?
+              What are Kudos?
               </Typography>
               <Typography variant="body1">
-              You do not need to. If you connect your wallet however, the website will auto-fill your public key for the airdrop.
+              Kudos represent a measure of every time someone thought to congratulate you or 
+              appreciate you for something you've done.
               </Typography>
+              
               </Grid>
             </Grid>
           </Box>
