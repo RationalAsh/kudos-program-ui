@@ -20,7 +20,7 @@ export default function KudosProgramUI (props: IKudosProgramUIProps) {
     const wallet = useAnchorWallet();
     const { connection } = useConnection();
     const { enqueueSnackbar } = useSnackbar();
-    const [kudosClient, setKudosClient] = React.useState<KudosClient | undefined>(undefined);
+    const [ kudosClient, setKudosClient ] = React.useState<KudosClient | undefined>(undefined);
     const [ userInitialized, setUserInitialized ] = React.useState<boolean>(false);
     const [ userStats, setUserStats ] = React.useState({
         name: "Not initialized",
