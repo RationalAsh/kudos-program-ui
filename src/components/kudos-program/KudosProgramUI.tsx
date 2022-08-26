@@ -1,4 +1,4 @@
-import { Backdrop, Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Divider, List, Modal, TextField, Typography } from '@mui/material';
+import { Backdrop, Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Divider, List, Modal, Stack, TextField, Typography } from '@mui/material';
 import * as anchor from "@project-serum/anchor";
 import { useConnection, useWallet, useAnchorWallet } from '@solana/wallet-adapter-react';
 import { PublicKey, SystemProgram } from '@solana/web3.js';
@@ -196,8 +196,13 @@ export default function KudosProgramUI (props: IKudosProgramUIProps) {
             open={isLoading}
             onClick={undefined}
             >
-            Sending kudos....
-            <CircularProgress color="inherit" />
+            <Stack spacing={4} justifyContent='center'>
+                <Typography variant="h4">
+                    Loading...
+                </Typography>
+                <CircularProgress color="inherit" />
+            </Stack>
+            
         </Backdrop>
         </>
     );
