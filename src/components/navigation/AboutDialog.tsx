@@ -70,6 +70,12 @@ export default function AboutDialog(props: AboutDialogProps) {
               the kudos you've received. This app was built as part of the Solana Summer Camp 
               2022.
 
+              The app currently runs on the Solana Devnet. So you do not need real money to use
+              it. However, you do need to airdrop yourself some SOL to your devnet wallet. You
+              can use my <Link rel='noreferrer'
+                               href='https://www.ashwinnarayan.com/dapps/solana-faucet/'
+                               target='_blank'>Solana Faucet</Link> to do so.
+
               The smart contract is open source and written in Rust. Visit  
               <Link rel="noreferrer" 
                     href="https://github.com/RationalAsh/kudos-program" 
@@ -91,6 +97,8 @@ export default function AboutDialog(props: AboutDialogProps) {
               Kudos represent a measure of every time someone thought to congratulate you or 
               appreciate you for something you've done.
               </Typography>
+
+
               
               </Grid>
             </Grid>
