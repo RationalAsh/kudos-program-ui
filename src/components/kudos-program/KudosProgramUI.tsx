@@ -35,6 +35,7 @@ export default function KudosProgramUI (props: IKudosProgramUIProps) {
     const [ creating, setCreating ] = React.useState<boolean>(false);
     const [ userName, setUserName ] = React.useState<string>("");
     const [ isLoading, setIsLoading ] = React.useState<boolean>(false);
+    const [ refreshStats, setRefreshStats ] = React.useState<boolean>(false);
 
     useEffect(() => {
         if (wallet) {
@@ -58,7 +59,7 @@ export default function KudosProgramUI (props: IKudosProgramUIProps) {
         getUsers().catch((err) => {
             enqueueSnackbar(err.toString(), {variant: "error", autoHideDuration: 5000});
         });
-    }, [kudosClient, userInitialized])
+    }, [kudosClient, userInitialized, refreshStats])
     
     function handleCreate(event: any) {
         // console.log(await kudosClient?.findUsers());
@@ -138,6 +139,7 @@ export default function KudosProgramUI (props: IKudosProgramUIProps) {
         const res = await kudosClient?.giveKudos(pkey)
             .then((res) => {
                 setIsLoading(false);
+                setRefreshStats((old) => !old)
                 enqueueSnackbar(res.toString(), {variant: "success", autoHideDuration: 5000});
             })
             .catch((res) => {
