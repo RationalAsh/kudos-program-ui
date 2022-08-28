@@ -97,8 +97,6 @@ export default function AboutDialog(props: AboutDialogProps) {
               Kudos represent a measure of every time someone thought to congratulate you or 
               appreciate you for something you've done.
               </Typography>
-
-
               
               </Grid>
             </Grid>
